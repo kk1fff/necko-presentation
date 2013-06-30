@@ -1,0 +1,84 @@
+\documentclass{beamer}
+\usepackage{listings} % source code
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{verbatim}
+
+\usetheme{Dresden}
+
+\title{Necko overview}
+\author{Patrick Wang}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Introduction}
+  \begin{itemize}
+  \item \textbf{Necko's primary responsibility} is moving data from one location,
+    to another location. 
+  \item Used to be a standalone module, until Gecko 9.0
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Basic component: from a user's perspective}
+  \begin{itemize}
+  \item URI
+    \begin{itemize}
+    \item \textbf{URI} represents location
+    \item \texttt{nsIURI}, \texttt{nsSimpleURI}, \ldots
+    \item \texttt{nsINestedURI} standards for `a uri that contains another uri'
+    \end{itemize}
+  \item URL
+    \begin{itemize}
+    \item \textbf{A URL} implements URI interface.
+    \item URLs provide getting/setting of paths, hosts, ports, filenames.
+    \end{itemize}
+  \item Channel
+    \begin{itemize}
+    \item \texttt{nsIChannel} provides a data access interface which allows you to read or write data from or to a URI
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Creating URI and Channel}
+  \begin{itemize}
+  \item Build \texttt{URI} and \texttt{Channel} though \texttt{nsIOService}
+  \end{itemize}
+  \begin{center}
+    \includegraphics[height=0.7\textheight]{ns-io-service.pdf}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Add a new protocol}
+  To add a new protocol, you will need to implement an \texttt{nsIProtocolHandler}.
+\begin{verbatim}
+  readonly attribute ACString scheme;
+  readonly attribute long defaultPort;
+  readonly attribute unsigned long protocolFlags;
+
+  nsIURI newURI(in AUTF8String aSpec,
+                in string aOriginCharset,
+                in nsIURI aBaseURI);
+  nsIChannel newChannel(in nsIURI aURI);
+  boolean allowPort(in long port, in string scheme);
+\end{verbatim}
+\end{frame}
+
+\begin{frame}{Add a new protocol}
+  \begin{itemize}
+  \item Make contract id of the new protocol handler \texttt{NS\_NETWORK\_PROTOCOL\_CONTRACTID\_PREFIX "my-scheme"}
+    \begin{itemize}
+    \item Note \texttt{\#define NS\_NETWORK\_PROTOCOL\_CONTRACTID\_PREFIX "@mozilla.org/network/protocol;1?name="}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% ---- Inside necko
+
+
+\end{document}
+

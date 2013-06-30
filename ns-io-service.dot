@@ -1,0 +1,17 @@
+digraph G {
+  node[shape=box];
+
+  nsIProtocolHandler -> createURI[label="newURI()"];
+  nsIProtocolHandler -> createChannel[label="newChannel()"];
+  nsIOService -> nsIProtocolHandler[label="scheme"];
+
+  subgraph cluster0 {
+    style="invis"
+    nsIURI[shape=box];
+    createURI[shape=ellipse,label="Create URI"];
+    createURI->nsIURI;
+  }
+
+  createChannel[label="Create Channel",shape=ellipse];
+  nsIURI -> createChannel [constraint=false];
+}
