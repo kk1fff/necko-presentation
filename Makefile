@@ -6,6 +6,7 @@ INCLUDED_GRAPHIC = \
 	out/ns-i-channel.pdf \
 	out/ns-i-socket-transport.pdf \
 	out/own-socket.pdf \
+	out/patrick-protocol.png
 
 out/present.pdf: ${INCLUDED_GRAPHIC} present.tex
 	mkdir -p out
@@ -24,6 +25,10 @@ out/%.pdf: %.pdf
 	mkdir -p out
 	cd out; \
 	cp ../$< ./
+
+out/%.png: %.png
+	mkdir -p out
+	cp $< $@
 
 clean:
 	rm -rf out
