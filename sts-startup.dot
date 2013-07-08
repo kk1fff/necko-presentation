@@ -1,0 +1,13 @@
+digraph G {
+  subgraph cluster_MainThread {
+    label="Main Thread"
+    stsInit -> stsNewThread;
+  }
+
+  subgraph cluster_StsThread {
+    label="STS thread";
+    n1[style=invis]
+    n1->stsRun[style=invis]
+    stsRun -> loop;
+  }
+}

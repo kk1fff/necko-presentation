@@ -1,0 +1,12 @@
+digraph G {
+  node[shape=record, fontsize=8]
+  edge[arrowhead=empty]
+
+  nsSocketTransport -> nsISocketTransport -> nsITransport
+  nsSocketInputStream -> nsIAsyncInputStream -> nsIInputStream
+  nsSocketOutputStream -> nsIAsyncOutputStream -> nsIOutputStream
+
+  nsSocketTransport -> nsSocketInputStream [dir=back,arrowtail=diamond]
+  nsSocketTransport -> nsSocketOutputStream [dir=back,arrowtail=diamond]  
+
+}

@@ -1,16 +1,29 @@
 all: out/present.pdf
 
-out/present.pdf: out/ns-io-service.pdf present.tex
+INCLUDED_GRAPHIC = \
+	out/ns-io-service.pdf \
+	out/sts-startup.pdf \
+	out/ns-i-channel.pdf \
+	out/ns-i-socket-transport.pdf \
+	out/own-socket.pdf \
+
+out/present.pdf: ${INCLUDED_GRAPHIC} present.tex
 	mkdir -p out
 	cd out; \
 	cp ../present.tex ./; \
 	pdflatex present.tex
 
-out/ns-io-service.pdf: ns-io-service.dot
+out/%.pdf: %.dot
 	mkdir -p out
 	cd out; \
-	cp ../ns-io-service.dot ./; \
-	dot -Tpdf ns-io-service.dot -o ns-io-service.pdf
+	cp ../$< ./; \
+	dot -Tpdf $< -o $(notdir $@)
+
+# precompiled pdf
+out/%.pdf: %.pdf
+	mkdir -p out
+	cd out; \
+	cp ../$< ./
 
 clean:
 	rm -rf out

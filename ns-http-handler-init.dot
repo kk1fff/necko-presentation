@@ -1,0 +1,18 @@
+digraph G {
+  node[shape=record]
+  hInit[label="nsHttpHandler::init()"]
+  mInit[label="nsHttpConnectionMgr::init()"]
+  "::newURI"[label="Create a StandardURL"]
+  hInit->mInit->updateTokenBucket
+  
+  hNewURI->"::newURI"
+
+  hcInit[label="HttpClient::Init()"];
+  hbcInit[label="HttpBaseChannel::Init()\n1. Request method.\n2. Host/port header.\n3. Standard headers (\nuser-agent, accepted lang,\naccepted encoding,\nDNT).\n4.Proxy"]
+  
+  hNewChannel->hNewProxiedChannel->hcCtor->hcInit->hbcInit
+
+  hcAsyncOpen[label="HttpChannel::AsyncOpen\n1. Check if port safe.\n 2. Add cookies into header."]
+  hcBeginConnect[label="HttpChannel::BeginConnect\n1. Build HttpConnectionInfo with proxy and ssl\n2. Add auth header if needed"]
+  hcAsyncOpen->hcBeginConnect->hcConnect
+}

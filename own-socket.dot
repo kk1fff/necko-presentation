@@ -1,0 +1,7 @@
+digraph G {
+  node[shape=record]
+  MySocket -> nsASocketHandler[arrowhead="empty"]
+  nsASocketHandler -> SocketTransportService[arrawtail=normal,dir=back,label="OnSocketReady()"];
+  nsASocketHandler -> SocketTransportService[arraytail=normal,dir=back,label="OnSocketDetached()"];
+  MySocket -> SocketTransportService[label="AttachSocket()"]
+}

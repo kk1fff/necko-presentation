@@ -1,0 +1,25 @@
+digraph G {
+  node[shape=record, fontsize=8]
+  edge[arrowhead=empty]
+  nsIRequest[label="{nsIRequest}"]
+  nsIChannel[label="{nsIChannel|+asyncOpen}"]
+  nsIRequestObserver[label="{nsIRequestObserver|+onStartRequest\n+onStopRequest}"]
+  nsIStreamListener[label="{nsIStreamListener|+onDataAvaliable}"]
+  nsBaseChannel[label="{nsBaseChannel|-OpenContentStream}"]
+
+  nsDataChannel->nsBaseChannel
+  nsFtpChannel->nsBaseChannel
+  nsFileChannel->nsBaseChannel
+  nsHttpChannel->HttpBaseChannel->nsIHttpChannel->nsIChannel
+  nsBaseChannel->nsIChannel
+  nsIChannel->nsIRequest
+  nsIStreamListener->nsIRequestObserver
+  nsHttpChannel->WebSocketChannel[arrowhead=odiamond]
+  WebSocketChannel->BaseWebSocketChannel->nsIProtocolHandler
+  BaseWebSocketChannel->nsIWebSocketChannel
+  {rank=same;WebSocketChannel;nsHttpChannel}
+  
+  nsIStreamListener->nsIChannel[arrowhead=none]
+  CALLER->nsIStreamListener[arrowtail=diamond,dir=back,constraint=false]
+  {rank=same;CALLER;nsIStreamListener}
+}
